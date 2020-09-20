@@ -1,0 +1,26 @@
+header.header {
+    background: var(--color-background-header);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header.header .logo {
+    margin-top: 0.8rem;
+    margin-left: 2rem;
+}
+
+header.header img {
+    height: 5rem;
+}
+
+header.header .login {
+    margin-right: 2rem;
+    font-size: 1.2rem;
+}
+
+header.header .login .logout {
+    margin-left: 1.5rem;
+    color: green;
+    font-size: 1.5rem;
+}

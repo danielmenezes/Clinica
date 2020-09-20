@@ -1,0 +1,12 @@
+footer.footer {
+    background: var(--color-background-footer);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+footer.footer span {
+    color: var(--color-text-in-primary);
+    margin: 0 2rem 1.5rem 0;
+}
+

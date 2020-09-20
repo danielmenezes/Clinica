@@ -1,0 +1,102 @@
+
+.customer-search-container {
+    padding: 0.3rem;
+    margin: 2.3rem 0 0 2.5rem;
+    height: 50rem;
+    width: 35rem;
+    min-width: 220px;
+    font-size: 1rem;
+    color: var(--color-text-in-primary);
+    display: block;
+}
+
+.customer-search-container .customer-search {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+}
+
+.customer-search-container .type-search label {
+    margin-right: 0.3rem;
+}
+
+.customer-search-container .type-search input[type=radio]{
+    margin: 0.3rem;
+}
+
+.customer-search-container .customer-search input {
+    height: 2rem;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+}
+
+.customer-search-container .customer-search button {
+    height: 2rem;
+    font-size: 1rem;
+    padding: 0.3rem;
+    margin-left: 0.5rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    background: var(--color-primary-button);
+    color: var(--color-text-in-primary);
+}
+
+.customer-search-container .customer-search button:hover {
+    background: var(--color-secondary-button);
+}
+
+.customer-search-container .customer-list ul {
+    margin: 2.5rem 0 2.5rem 0
+}
+
+.customer-search-container .customer-list ul li {
+    height: 5rem;
+    padding: 0.3rem;
+    margin: 0.5rem 0 0.5rem 0;
+    width: 100%;
+    min-width: 300px;
+    border: 1px solid #fff;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.customer-search-container .customer-list ul li .list-item-values {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-search-container .customer-list ul li .list-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-search-container .customer-list ul li .list-buttons button {
+    width: 3rem;
+    height: 2rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.customer-search-container .customer-list ul li .list-buttons button.delete {
+    background: rgb(255, 31, 31);
+    color: #fff;
+}
+
+.customer-search-container .customer-list ul li .list-buttons button.delete:hover {
+    background: rgb(187, 23, 23);
+}
+
+.customer-search-container .customer-list ul li .list-buttons button.edit {
+    background: rgb(210, 212, 57);
+    color: #fff;
+}
+
+.customer-search-container .customer-list ul li .list-buttons button.edit:hover {
+    background: rgb(151, 153, 37);
+}
+
+
+

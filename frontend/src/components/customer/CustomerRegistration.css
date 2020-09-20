@@ -1,0 +1,91 @@
+.customer-form {
+    padding: 0.3rem;
+    margin: 2.5rem 2.5rem 0 2.5rem;
+    height: 50rem;
+    width: 35rem;
+    min-width: 220px;
+}
+
+.customer-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    color: #fff;
+}
+
+.customer-form form label {
+    font-size: 1.2rem;
+    padding-left: 0.1rem;
+}
+
+.customer-form form input {
+    height: 2rem;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 0.4rem;
+}
+
+.customer-form form p {
+    height: 1rem;
+    padding-left: 0.1rem;
+    margin: 0.2rem 0 1rem 0;
+    color: yellow;
+}
+
+.customer-form form button {
+    height: 2.5rem;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    border-radius: 0.4rem;
+    background: var(--color-primary-button);
+    color: var(--color-text-in-primary);
+    cursor: pointer;
+}
+
+.customer-form form button:hover {
+    background: var(--color-secondary-button);
+}
+
+
+.customer-form form .radio-sex {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-form form .radio-sex .radio-items {
+    display: flex;
+    align-items: center;
+}
+
+.customer-form form .radio-sex .radio-items input{
+    font-size: 0.5rem;
+    height: 1.2rem;
+    margin: 0 0.2rem;
+}
+
+.customer-form form .radio-sex .radio-items label {
+    font-size: 1rem;
+    margin: 0 0.2rem;
+    padding-bottom: 0.3rem;
+}
+
+.customer-form form .form-address {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.customer-form form .form-address .form-street-number, .form-city-uf {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.customer-form form .form-address .form-street-number input[name=address\.street] {
+    flex-basis: 280%;
+}
+
+.customer-form form .form-address .form-city-uf input[name=address\.city] {
+    flex-basis: 280%;
+}
