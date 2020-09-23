@@ -3,18 +3,7 @@ import { useForm } from "react-hook-form";
 
 import './CustomerSearch.css'
 
-let backendList = [{
-    id: 1, 
-    name: "Daniel de Menezes Silva",
-    cpf: "202.212.199-99", 
-    age: "10/12/2000",
-},
-{
-    id: 2, 
-    name: "Maiane Cordeiro de Lima Menezes",
-    cpf: "123.456.789.00", 
-    age: "10/10/1988"
-}]
+let backendList = []
 
 
 
