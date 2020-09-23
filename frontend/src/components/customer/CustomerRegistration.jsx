@@ -9,7 +9,9 @@ import testCpf from './utils/testCpf';
 export default (props) => {
     const { register, handleSubmit, errors, reset, setValue } = useForm();
     const currentUser = props.currentUser
-    const buttonRef = useRef(null)
+    const [editMode, setEditMode] = props.editMode
+    const buttonSubmitRef = useRef(null)
+    const formRef = useRef(null)
 
     const maskCpf = useCallback(e => {
         e.currentTarget.maxLength = 11
@@ -27,19 +29,36 @@ export default (props) => {
         e.currentTarget.value = value
     }, [])
 
-    useEffect(() => {
-        setValue("name", currentUser.name)
-        setValue("cpf", currentUser.cpf)
-        setValue("mother", currentUser.mother)
-        setValue("age", currentUser.age)
-        setValue("phone", currentUser.phone)
-        setValue("sex", currentUser.sex)
-        setValue("address", currentUser.address)
 
-        //buttonRef.current.innerHTML = "Salvar"
-    }, [currentUser, setValue])
+    useEffect(() => {
+
+        if(editMode) { 
+            setValue("name", currentUser.name)
+            setValue("cpf", currentUser.cpf)
+            setValue("mother", currentUser.mother)
+            setValue("age", currentUser.age)
+            setValue("phone", currentUser.phone)
+            setValue("sex", currentUser.sex)            
+            setValue("address", currentUser.address)
+
+            buttonSubmitRef.current.innerHTML = "Salvar"
+        }
+
+    }, [currentUser, setValue, editMode, setEditMode])
+
+    const onClear = useCallback(() => {
+        reset()
+    }, [reset])
+
+    const onCancelSubmit = useCallback(() => {
+        buttonSubmitRef.current.innerHTML = "Cadastrar"
+        setEditMode(false)
+        reset()
+    }, [setEditMode, reset])
 
     const onSubmit = (data) => {
+        buttonSubmitRef.current.innerHTML = "Cadastrar"
+        setEditMode(false)
         console.log(data)
 
         reset()
@@ -47,7 +66,7 @@ export default (props) => {
 
     return (
             <div className="customer-form">
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
      
                         <label htmlFor="name"> Nome </label>
                         <input type="text" name="name" 
@@ -123,7 +142,9 @@ export default (props) => {
                         </div>
                     
                  
-                    <button type="submit" ref={buttonRef} > Cadastrar </button>
+                    <button type="submit" ref={buttonSubmitRef} > Cadastrar </button>
+                    {editMode || <button onClick={() => onClear()} type="button"> Limpar Campos </button>}
+                    {!editMode || <button onClick={() => onCancelSubmit()} type="button"> Cancelar </button>}
                 </form>
             </div>
     )

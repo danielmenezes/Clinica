@@ -18,11 +18,11 @@
 
 
 .app {
-    overflow: hidden;
+    overflow: auto;
     display: grid;
     height: 100vh;
     width: 100vw;
-    grid-template-columns: calc(1fr - 2rem);
+    grid-template-columns: 1fr;
     grid-template-rows: 8rem 2.5rem 1fr 6rem;
 
     grid-template-areas:

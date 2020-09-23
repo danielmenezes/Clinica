@@ -41,6 +41,7 @@
     cursor: pointer;
     background: var(--color-primary-button);
     color: var(--color-text-in-primary);
+    outline: none;
 }
 
 .customer-search-container .customer-search button:hover {
@@ -48,6 +49,8 @@
 }
 
 .customer-search-container .customer-list ul {
+    height: 41.5rem;
+    overflow: auto;
     margin: 2.5rem 0 2.5rem 0
 }
 

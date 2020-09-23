@@ -6,13 +6,14 @@ import CustomerRegistration from './CustomerRegistration'
 import CustomerSearch from './CustomerSearch'
 
 export default () => {
-    const [currentUser, setCurretUser] = useState({})
+    const [currentUser, setCurrentUser] = useState({})
+    const [editMode, setEditMode] = useState(false)
 
     return(
         <Main>
-            <CustomerRegistration currentUser={currentUser}></CustomerRegistration>
+            <CustomerRegistration currentUser={currentUser} editMode={[editMode, setEditMode]}></CustomerRegistration>
             <hr></hr>
-            <CustomerSearch currentUser={setCurretUser}></CustomerSearch>
+            <CustomerSearch currentUser={setCurrentUser} editMode={[editMode, setEditMode]} ></CustomerSearch>
         </Main>
     )
 }

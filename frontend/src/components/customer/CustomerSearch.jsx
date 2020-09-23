@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback} from 'react'
 import { useForm } from "react-hook-form";
 
 import './CustomerSearch.css'
@@ -6,31 +6,36 @@ import './CustomerSearch.css'
 let backendList = [{
     id: 1, 
     name: "Daniel de Menezes Silva",
-    cpf: "041.066.383-20", 
-    age: "07/11/1989",
-    sex: "Masculino",
-    address: {
-        street: "Rua Agostinho Carlos Santiago",
-        number: "1130",
-        city: "Russas",
-        uf: "Ceará"
-    }
+    cpf: "202.212.199-99", 
+    age: "10/12/2000",
 },
 {
     id: 2, 
     name: "Maiane Cordeiro de Lima Menezes",
-    cpf: "018.789.683-60", 
-    age: "25/03/1992"
+    cpf: "123.456.789.00", 
+    age: "10/10/1988"
 }]
 
 
 
 export default (props) => {
     const { register, handleSubmit, reset } = useForm();
-    const [customerList, setCustomerList] = useState()
-    const setCurretUser = props.currentUser
+    const [customerList, setCustomerList] = useState([])
+    const setCurrentUser = props.currentUser
+    const [editMode, setEditMode] = props.editMode
 
-    const randleList = (customerList) => {
+
+    const editCustomer = useCallback((customer) =>{
+        setEditMode(true)
+        setCurrentUser(customer)
+        setCustomerList([])
+    }, [setCurrentUser, setEditMode])
+
+    const deleteCustomer = useCallback((customer) => {
+        console.log('Delete')
+    }, [])
+
+    const randleList = useCallback((customerList) => {
         return  (
             customerList ? customerList.map( customer => 
                 <li key={customer.id}>
@@ -41,25 +46,22 @@ export default (props) => {
                     </div>
                     <div className="list-buttons">
                         <button onClick={() => editCustomer(customer)} className="edit fa fa-edit" type="button"></button>
-                        <button onClick={() => deleteCustomer()} className="delete fa fa-trash" type="button"></button>
+                        <button onClick={() => deleteCustomer(customer)} className="delete fa fa-trash" type="button"></button>
                     </div>
                 </li>
-            ) : <li> Nenhum cliente encontrado </li>
+            ) : ""
         )
-    }
+    }, [deleteCustomer, editCustomer])
     
-    function editCustomer(customer) {
-        setCurretUser(customer)
-    }
-    
-    function deleteCustomer(customer) {
-        console.log('Delete')
-    }
     
     const onSubmit = data => {
         console.log(data)
-        setCustomerList(backendList)
         reset()
+        if(!editMode) {
+            setCustomerList(backendList)
+        } else {
+            alert("Você está editando um cliente")
+        }
     }
 
 
