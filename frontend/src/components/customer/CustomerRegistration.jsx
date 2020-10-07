@@ -1,17 +1,21 @@
 import React, { useCallback } from 'react'
 import { useEffect, useRef } from 'react';
 import { useForm } from "react-hook-form";
+import { useToasts } from 'react-toast-notifications'
+
 
 import './CustomerRegistration.css'
 import testCpf from './utils/testCpf';
+import { registerCustomers, updateCustomers } from './api'
 
 
 export default (props) => {
     const { register, handleSubmit, errors, reset, setValue } = useForm();
-    const currentUser = props.currentUser
+    const [currentCustomer, setCurrentCustomer] = props.currentCustomer
     const [editMode, setEditMode] = props.editMode
     const buttonSubmitRef = useRef(null)
     const formRef = useRef(null)
+    const { addToast } = useToasts()
 
     const maskCpf = useCallback(e => {
         e.currentTarget.maxLength = 11
@@ -33,18 +37,24 @@ export default (props) => {
     useEffect(() => {
 
         if(editMode) { 
-            setValue("name", currentUser.name)
-            setValue("cpf", currentUser.cpf)
-            setValue("mother", currentUser.mother)
-            setValue("age", currentUser.age)
-            setValue("phone", currentUser.phone)
-            setValue("sex", currentUser.sex)            
-            setValue("address", currentUser.address)
+            setValue("name", currentCustomer.name)
+            setValue("cpf", currentCustomer.cpf)
+            setValue("mother", currentCustomer.mother)
+            setValue("age", currentCustomer.age)
+            setValue("phone", currentCustomer.phone)
+            setValue("sex", currentCustomer.sex)            
+            setValue("street", currentCustomer.street)
+            setValue("number", currentCustomer.number)
+            setValue("city", currentCustomer.city)
+            setValue("uf", currentCustomer.uf)
 
             buttonSubmitRef.current.innerHTML = "Salvar"
+        } else {
+            buttonSubmitRef.current.innerHTML = "Cadastrar"
         }
 
-    }, [currentUser, setValue, editMode, setEditMode])
+
+    }, [currentCustomer, setValue, editMode, setEditMode])
 
     const onClear = useCallback(() => {
         reset()
@@ -53,15 +63,35 @@ export default (props) => {
     const onCancelSubmit = useCallback(() => {
         buttonSubmitRef.current.innerHTML = "Cadastrar"
         setEditMode(false)
+        setCurrentCustomer({})
         reset()
-    }, [setEditMode, reset])
+    }, [setEditMode, reset, setCurrentCustomer])
 
-    const onSubmit = (data) => {
-        buttonSubmitRef.current.innerHTML = "Cadastrar"
-        setEditMode(false)
-        console.log(data)
+    const onSubmit = async (data) => {
+        let res = null
 
-        reset()
+        if(editMode) {
+            res = await updateCustomers(data, currentCustomer.id)
+        } else {
+            res = await registerCustomers(data)
+        }
+
+        if(res.error) {
+            addToast(res.error, {
+                appearance: 'error',
+                autoDismiss: true,
+            })
+        }
+
+        if(res && res.status === 204) {
+            addToast(editMode ? 'Cliente alterado com sucesso!' : 'Cliente cadastrado com sucesso!', {
+                appearance: 'success',
+                autoDismiss: true,
+            })
+            setCurrentCustomer({})
+            setEditMode(false)
+            reset()
+        }
     }
 
     return (
@@ -128,15 +158,15 @@ export default (props) => {
                         <label> Endereço </label>
                         <div className="form-address">
                             <div className="form-street-number">
-                                <input type="text" name="address.street" ref={register} 
+                                <input type="text" name="street" ref={register} 
                                         placeholder="Rua - Bairro"/>
-                                <input type="number" name="address.number" ref={register} 
+                                <input type="text" name="number" ref={register} 
                                         placeholder="Nº"/>
                             </div>
                             <div className="form-city-uf">
-                                <input type="text" name="address.city" ref={register} 
+                                <input type="text" name="city" ref={register} 
                                     placeholder="Cidade"/>
-                                <input type="text" name="address.uf" ref={register} 
+                                <input type="text" name="uf" ref={register} 
                                     placeholder="UF"/>
                             </div>
                         </div>

@@ -7,7 +7,6 @@ export default function testCPF(strCPF) {
     var Resto;
     Soma = 0;
   if (strCPF === "00000000000") return false;
-  if (strCPF === "") return true;
   
 
   for (let i=1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);

@@ -37,7 +37,8 @@ module.exports = app => {
     }
 
     const getByNameOrCPF = async (req, res) => {
-        const { inputSearch, typeSearch } = {...req.body}
+        
+        const { typeSearch, inputSearch } = req.query
 
         try {
             existsOrError(inputSearch, 'Digite sua pesquisa')
@@ -67,8 +68,8 @@ module.exports = app => {
             existsOrError(customerId, 'ID não informado')
 
             const customerDeleted = await app.db('customers').where({id: customerId}).del()
-            existsOrError(customerDeleted, 'Usuário não encontrado')
-            res.send('Cliente deletado')
+            existsOrError(customerDeleted, 'Cliente não encontrado')
+            res.send('Cliente deletado com sucesso')
         } catch(msg) {
             res.status(400).send(msg)
         }

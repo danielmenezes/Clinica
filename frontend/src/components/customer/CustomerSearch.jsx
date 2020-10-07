@@ -1,33 +1,51 @@
-import React, { useState, useCallback} from 'react'
+import React, { useState, useCallback } from 'react'
 import { useForm } from "react-hook-form";
+import { useToasts } from 'react-toast-notifications'
 
 import './CustomerSearch.css'
+import { getCustomers, deleteCustomers } from './api'
 
 let backendList = []
-
 
 
 export default (props) => {
     const { register, handleSubmit, reset } = useForm();
     const [customerList, setCustomerList] = useState([])
-    const setCurrentUser = props.currentUser
+    const setCurrentCustomer = props.currentCustomer
     const [editMode, setEditMode] = props.editMode
+    const { addToast } = useToasts()
 
 
     const editCustomer = useCallback((customer) =>{
         setEditMode(true)
-        setCurrentUser(customer)
+        setCurrentCustomer(customer)
         setCustomerList([])
-    }, [setCurrentUser, setEditMode])
+    }, [setCurrentCustomer, setEditMode])
 
-    const deleteCustomer = useCallback((customer) => {
-        console.log('Delete')
-    }, [])
+    const deleteCustomer = useCallback(async (customer, indice) => {
+               
+        const res = await deleteCustomers(customer)
 
-    const randleList = useCallback((customerList) => {
+        if(res.error) {
+            addToast(res.error, {
+                appearance: 'error',
+                autoDismiss: true,
+            })
+        
+        } else {
+            backendList.splice(indice,1)
+            setCustomerList(backendList)
+            addToast('Cliente deletado com sucesso!', {
+                appearance: 'success',
+                autoDismiss: true,
+            })
+        }
+    }, [addToast])
+
+    const randleList = (customerList) => {
         return  (
-            customerList ? customerList.map( customer => 
-                <li key={customer.id}>
+            customerList ? customerList.map( (customer, indice) => 
+                <li key={indice}>
                     <div className="list-item-values">
                         <div> {customer.name} </div> 
                         <div> {customer.cpf} </div>
@@ -35,16 +53,17 @@ export default (props) => {
                     </div>
                     <div className="list-buttons">
                         <button onClick={() => editCustomer(customer)} className="edit fa fa-edit" type="button"></button>
-                        <button onClick={() => deleteCustomer(customer)} className="delete fa fa-trash" type="button"></button>
+                        <button onClick={() => deleteCustomer(customer, indice)} className="delete fa fa-trash" type="button"></button>
                     </div>
                 </li>
             ) : ""
         )
-    }, [deleteCustomer, editCustomer])
+    }
+
     
-    
-    const onSubmit = data => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        backendList = await getCustomers(data)
+        
         reset()
         if(!editMode) {
             setCustomerList(backendList)
@@ -58,15 +77,15 @@ export default (props) => {
         <form onSubmit={handleSubmit(onSubmit)}  className="customer-search-container">
             <div className="type-search">
                 <label htmlFor="type-search"> Pesquisar por: </label>
-                <input type="radio" id="name" defaultChecked name="type-search" value="name"
+                <input type="radio" id="name" defaultChecked name="typeSearch" value="name"
                     ref={register({ required: true })}/> 
                 <label> Nome </label>
-                <input type="radio" id="cpf" name="type-search" value="cpf"
+                <input type="radio" id="cpf" name="typeSearch" value="cpf"
                     ref={register({ required: true })}/>
                 <label> CPF </label>
             </div>
             <div className="customer-search"> 
-                <input type="text" name="input-search" 
+                <input type="text" name="inputSearch" 
                     placeholder="Digite sua pesquisa..." 
                     ref={register({ required: true })} />
                 <button type="submit"> Pesquisar </button>

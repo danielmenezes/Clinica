@@ -9,7 +9,7 @@ exports.up = function(knex) {
         table.string('phone')
         table.string('sex').notNull()
         table.string('street')
-        table.integer('number')
+        table.string('number')
         table.string('city')
         table.string('uf')
     }) 
