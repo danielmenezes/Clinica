@@ -17,7 +17,7 @@ module.exports = app => {
                 .where({cpf: customer.cpf}).first()
             
             if(!customer.id) {
-                notExistsOrError(customerFromDB, 'Usuário já cadastrado com esse CPF')
+                notExistsOrError(customerFromDB, 'Já existe um cliente cadastrado com esse CPF')
             }
             
         } catch(msg) {
@@ -50,7 +50,7 @@ module.exports = app => {
 
         try {
             if(typeSearch === 'name') {
-                const customers = await app.db('customers').where('name', 'ilike', `%${inputSearch}%`)
+                const customers = await app.db('customers').where('name', 'ilike', `%${inputSearch}%`).orderBy('name')
                 res.json(customers)    
             } else if(typeSearch === "cpf") {
                 const customers = await app.db('customers').where({ cpf: inputSearch })
