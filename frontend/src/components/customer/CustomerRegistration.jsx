@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { useToasts } from 'react-toast-notifications'
 
@@ -7,12 +7,14 @@ import { useToasts } from 'react-toast-notifications'
 import './CustomerRegistration.css'
 import testCpf from './utils/testCpf';
 import { registerCustomers, updateCustomers } from './api'
+import {appContext} from '../../main/contexts/Context'
 
 
 export default (props) => {
     const { register, handleSubmit, errors, reset, setValue } = useForm();
-    const [currentCustomer, setCurrentCustomer] = props.currentCustomer
-    const [editMode, setEditMode] = props.editMode
+    const {currentCustomer, setCurrentCustomer} = useContext(appContext)
+    const {editMode, setEditMode} = useContext(appContext)
+    
     const buttonSubmitRef = useRef(null)
     const formRef = useRef(null)
     const { addToast } = useToasts()

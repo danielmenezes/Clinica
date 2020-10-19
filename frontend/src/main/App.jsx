@@ -7,13 +7,17 @@ import Header from '../components/templates/Header'
 import Nav from '../components/templates/Nav'
 import Footer from '../components/templates/Footer'
 import Routes from './Routes'
+import AppProvider from './contexts/Context'
+
 
 export default props => 
 <BrowserRouter>
     <div className="app">
         <Header />
         <Nav />
-        <Routes />
+        <AppProvider>
+            <Routes />
+        </AppProvider>
         <Footer />
     </div>
 </BrowserRouter>

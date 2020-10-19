@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import { useForm } from "react-hook-form";
 import { useToasts } from 'react-toast-notifications'
 
 import './CustomerSearch.css'
 import { getCustomers, deleteCustomers } from './api'
+import {appContext} from '../../main/contexts/Context'
 
 let backendList = []
 
@@ -11,8 +12,8 @@ let backendList = []
 export default (props) => {
     const { register, handleSubmit, reset } = useForm();
     const [customerList, setCustomerList] = useState([])
-    const setCurrentCustomer = props.currentCustomer
-    const [editMode, setEditMode] = props.editMode
+    const {setCurrentCustomer} = useContext(appContext)
+    const {editMode, setEditMode} = useContext(appContext)
     const { addToast } = useToasts()
 
 
