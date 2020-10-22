@@ -6,12 +6,15 @@ export const AppProvider = ({children}) => {
 
     const [currentCustomer, setCurrentCustomer] = useState({})
     const [editMode, setEditMode] = useState(false)
+    const [currentUserLogged, setCurrentUserLogged] = useState({})
 
     const state = {
         currentCustomer,
         setCurrentCustomer,
         editMode,
-        setEditMode
+        setEditMode,
+        currentUserLogged,
+        setCurrentUserLogged
     }
 
     return (

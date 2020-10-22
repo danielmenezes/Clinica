@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import { useForm } from "react-hook-form";
-import { useToasts } from 'react-toast-notifications'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './CustomerSearch.css'
-import { getCustomers, deleteCustomers } from './api'
+import { getCustomers, deleteCustomers } from './apiCustomers'
 import {appContext} from '../../main/contexts/Context'
 
 let backendList = []
@@ -14,34 +15,27 @@ export default (props) => {
     const [customerList, setCustomerList] = useState([])
     const {setCurrentCustomer} = useContext(appContext)
     const {editMode, setEditMode} = useContext(appContext)
-    const { addToast } = useToasts()
 
 
-    const editCustomer = useCallback((customer) =>{
+    const editCustomer = useCallback( (customer) =>{
         setEditMode(true)
         setCurrentCustomer(customer)
         setCustomerList([])
-    }, [setCurrentCustomer, setEditMode])
+    },[setCurrentCustomer, setEditMode])
 
-    const deleteCustomer = useCallback(async (customer, indice) => {
+    const deleteCustomer = useCallback( async (customer, indice) => {
                
         const res = await deleteCustomers(customer)
 
         if(res.error) {
-            addToast(res.error, {
-                appearance: 'error',
-                autoDismiss: true,
-            })
-        
+            toast.error(res.error)
         } else {
             backendList.splice(indice,1)
+            toast.success('Cliente deletado com sucesso!')
+            setCustomerList([])
             setCustomerList(backendList)
-            addToast('Cliente deletado com sucesso!', {
-                appearance: 'success',
-                autoDismiss: true,
-            })
         }
-    }, [addToast])
+    }, [setCustomerList])
 
     const randleList = (customerList) => {
         return  (
@@ -60,7 +54,6 @@ export default (props) => {
             ) : ""
         )
     }
-
     
     const onSubmit = async (data) => {
         backendList = await getCustomers(data)
@@ -75,27 +68,30 @@ export default (props) => {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}  className="customer-search-container">
-            <div className="type-search">
-                <label htmlFor="type-search"> Pesquisar por: </label>
-                <input type="radio" id="name" defaultChecked name="typeSearch" value="name"
-                    ref={register({ required: true })}/> 
-                <label> Nome </label>
-                <input type="radio" id="cpf" name="typeSearch" value="cpf"
-                    ref={register({ required: true })}/>
-                <label> CPF </label>
-            </div>
-            <div className="customer-search"> 
-                <input type="text" name="inputSearch" 
-                    placeholder="Digite sua pesquisa..." 
-                    ref={register({ required: true })} />
-                <button type="submit"> Pesquisar </button>
-            </div>
-            <div className="customer-list">
-                <ul>
-                    {randleList(customerList)}
-                </ul>
-            </div>
-        </form>
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}  className="customer-search-container">
+                <div className="type-search">
+                    <label htmlFor="type-search"> Pesquisar por: </label>
+                    <input type="radio" id="name" defaultChecked name="typeSearch" value="name"
+                        ref={register({ required: true })}/> 
+                    <label> Nome </label>
+                    <input type="radio" id="cpf" name="typeSearch" value="cpf"
+                        ref={register({ required: true })}/>
+                    <label> CPF </label>
+                </div>
+                <div className="customer-search"> 
+                    <input type="text" name="inputSearch" 
+                        placeholder="Digite sua pesquisa..." 
+                        ref={register({ required: true })} />
+                    <button type="submit"> Pesquisar </button>
+                </div>
+                <div className="customer-list">
+                    <ul>
+                        {randleList(customerList)}
+                    </ul>
+                </div>
+            </form>
+            <ToastContainer />
+        </>
     )
 }

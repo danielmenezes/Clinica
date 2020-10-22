@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react'
-import { useEffect, useRef, useContext } from 'react';
+import React, { useCallback, useEffect, useRef, useContext  } from 'react'
 import { useForm } from "react-hook-form";
-import { useToasts } from 'react-toast-notifications'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import './CustomerRegistration.css'
 import testCpf from './utils/testCpf';
-import { registerCustomers, updateCustomers } from './api'
+import { registerCustomers, updateCustomers } from './apiCustomers'
 import {appContext} from '../../main/contexts/Context'
 
 
@@ -17,7 +17,6 @@ export default (props) => {
     
     const buttonSubmitRef = useRef(null)
     const formRef = useRef(null)
-    const { addToast } = useToasts()
 
     const maskCpf = useCallback(e => {
         e.currentTarget.maxLength = 11
@@ -71,7 +70,7 @@ export default (props) => {
 
     const onSubmit = async (data) => {
         let res = null
-
+        console.log(currentCustomer)
         if(editMode) {
             res = await updateCustomers(data, currentCustomer.id)
         } else {
@@ -79,17 +78,11 @@ export default (props) => {
         }
 
         if(res.error) {
-            addToast(res.error, {
-                appearance: 'error',
-                autoDismiss: true,
-            })
+            toast.error(res.error)
         }
 
         if(res && res.status === 204) {
-            addToast(editMode ? 'Cliente alterado com sucesso!' : 'Cliente cadastrado com sucesso!', {
-                appearance: 'success',
-                autoDismiss: true,
-            })
+            toast.success(editMode ? 'Cliente alterado com sucesso!' : 'Cliente cadastrado com sucesso!')
             setCurrentCustomer({})
             setEditMode(false)
             reset()
@@ -178,6 +171,7 @@ export default (props) => {
                     {editMode || <button onClick={() => onClear()} type="button"> Limpar Campos </button>}
                     {!editMode || <button onClick={() => onCancelSubmit()} type="button"> Cancelar </button>}
                 </form>
+                <ToastContainer />
             </div>
     )
 }

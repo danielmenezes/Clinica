@@ -84,10 +84,10 @@
     flex-flow: row nowrap;
 }
 
-.customer-form form .form-address .form-street-number input[name=address\.street] {
+.customer-form form .form-address .form-street-number input[name=street] {
     flex-basis: 280%;
 }
 
-.customer-form form .form-address .form-city-uf input[name=address\.city] {
+.customer-form form .form-address .form-city-uf input[name=city] {
     flex-basis: 280%;
 }

@@ -1,12 +1,8 @@
-import { baseApiUrl } from '../../main/config'
-import axios from 'axios'
-
-
-const url = `${baseApiUrl}/customers`
+import  api from '../../services/api'
 
 const getCustomers = (search) => {
     
-    return axios.get(url, {params: {...search}})
+    return api.get('customers', {params: {...search}})
         .then(res => {
             return res.data
         })
@@ -18,7 +14,7 @@ const getCustomers = (search) => {
 
 const registerCustomers = (customer) => {
 
-    return axios.post(url, customer)
+    return api.post('customers', customer)
         .then(res => {
             return res
         })
@@ -31,7 +27,7 @@ const registerCustomers = (customer) => {
 
 const updateCustomers = (customer, id) => {
  
-    return axios.put(url+`/${id}`, customer)
+    return api.put(`customers/${id}`, customer)
         .then(res => {
             return res
         })
@@ -43,7 +39,7 @@ const updateCustomers = (customer, id) => {
 }
 
 const deleteCustomers = (customer) => {
-    return axios.delete(url+`/${customer.id}`)
+    return api.delete(`customers/${customer.id}`)
         .then(res => {
             return res
         })

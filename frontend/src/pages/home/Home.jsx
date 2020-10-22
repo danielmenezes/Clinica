@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Home.css'
-import Main from '../templates/Main'
+import Main from '../../components/templates/Main'
 
 export default props =>
     <Main>

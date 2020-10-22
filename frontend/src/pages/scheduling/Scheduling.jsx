@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 import './Scheduling.css'
-import Main from '../templates/Main'
+import Main from '../../components/templates/Main'
 
 export default class Scheduling extends Component {
 

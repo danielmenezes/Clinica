@@ -16,14 +16,13 @@
 }
 
 
-
 .app {
     overflow: auto;
     display: grid;
     height: 100vh;
     width: 100vw;
     grid-template-columns: 1fr;
-    grid-template-rows: 8rem 2.5rem 1fr 6rem;
+    grid-template-rows: 110px 30px 1fr 70px;
 
     grid-template-areas:
         "header"
@@ -46,5 +45,4 @@ main.body {
 
 footer.footer {
     grid-area: footer;
-
 }
